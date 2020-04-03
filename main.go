@@ -3,11 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/axgle/mahonia"
-	"./chinese2digits"
 	"io"
 	"os"
 	"strings"
+
+	"./chinese2digits"
+	"./rmblower2upper"
+	"github.com/axgle/mahonia"
 )
 
 const (
@@ -30,6 +32,7 @@ func ReplaceFileLine(path string) {
 	decoder := mahonia.NewDecoder("gb18030")
 	if decoder == nil {
 		fmt.Println("文件编码不存在!")
+		return
 	}
 
 	r := bufio.NewReader(f)
@@ -73,7 +76,14 @@ func ReplaceFileLine(path string) {
 	fw.Close()
 }
 
+// 人民币小写转大写
+func RMBLowerCaseToUpperCase(num float64) string {
+	return rmblower2upper.ConvertNumToCny(12345.78)
+}
+
 func main() {
 	path := "./result.txt"
 	ReplaceFileLine(path)
+
+	RMBLowerCaseToUpperCase(12345.78)
 }
